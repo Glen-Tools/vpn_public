@@ -1,0 +1,92 @@
+{
+    "log": {
+        "access": "/var/log/access.log",
+        "error": "/var/log/error.log",
+        "loglevel": "warning"
+    },
+    "inbounds": [
+        {
+            "port": 443,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        // private config
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws"
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "socks",
+            "settings": {
+                "servers": [
+                    {
+                        "port": 1080,
+                        "address": "dante"
+                    }
+                ]
+            },
+            "streamSettings": {
+                "tcpSettings": {
+                    "header": {
+                        "type": "none"
+                    }
+                },
+                "network": "tcp",
+                "security": "none"
+            },
+            "tag": "streaming"
+        },
+        {
+            "settings": {},
+            "protocol": "freedom"
+        }
+    ],
+    "routing": {
+        "rules": [
+            {
+                "type": "field",
+                "domain": [
+                    "domain:btstatic.com",
+                    "domain:netflix.com",
+                    "domain:netflix.net",
+                    "domain:nflxext.com",
+                    "domain:nflximg.com",
+                    "domain:nflximg.net",
+                    "domain:nflxsearch.net",
+                    "domain:nflxso.net",
+                    "domain:nflxvideo.net",
+                    "domain:fast.com",
+                    "domain:fast.ca",
+                    "domain:netflixinvestor.com",
+                    "domain:byspotify.com",
+                    "domain:pscdn.co",
+                    "domain:scdn.co",
+                    "domain:spoti.fi",
+                    "domain:spotify-everywhere.com",
+                    "domain:spotify.com",
+                    "domain:spotify.design",
+                    "domain:spotifycdn.com",
+                    "domain:spotifycdn.net",
+                    "domain:spotifycharts.com",
+                    "domain:sspotifycodes.com",
+                    "domain:spotifyforbrands.com",
+                    "domain:spotifyjobs.com"
+                ],
+                "outboundTag": "streaming"
+            }
+        ]
+    }
+}

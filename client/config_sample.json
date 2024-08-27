@@ -1,0 +1,64 @@
+{
+    "log": {
+        "loglevel": "warming",
+        "error": "./v2ray_to_wireguard/log/error.log",
+        "access": "./v2ray_to_wireguard/log/access.log"
+    },
+    "inbounds": [
+        {
+            "protocol": "socks",
+            "listen": "127.0.0.1",
+            "port": "1080",
+            "settings": {
+                "udp": false,
+                "auth": "noauth"
+            }
+        },
+        {
+            "protocol": "http",
+            "listen": "127.0.0.1",
+            "port": "1087",
+            "settings": {
+                "timeout": 360
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "mux": {
+                "enabled": true,
+                "concurrency": 10
+            },
+            "tag": "proxy",
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "206.238.40.143",
+                        "port": 443,
+                        "users": [
+                            {
+                                "level": 0,
+                                "alterId": 0,
+                                "security": "auto",
+                                "id": "e734d269-bcb1-b1e4-de04-dff14cf619f2"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "none",
+                "wsSettings": {
+                    "path": "/"
+                }
+            }
+        }
+    ],
+    "routing": {
+        "balancers": [],
+        "rules": [],
+        "domainStrategy": "AsIs"
+    }
+}

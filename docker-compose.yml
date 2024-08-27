@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  wg-easy:
+    image: ghcr.io/wg-easy/wg-easy
+    container_name: wg-easy
+    restart: unless-stopped
+    environment:
+      # Change Language:
+      # (Supports: en, ua, ru, tr, no, pl, fr, de, ca, es, ko, vi, nl, is, pt, chs, cht, it, th, hi)
+      - LANG=cht
+      # ⚠️ Required:
+      # Change this to your host's public address
+      # - WG_HOST=206.238.221.45
+      - WG_HOST=vpn.jisef.cc
+
+      # Optional:
+      # - PASSWORD_HASH='$2b$12$XOj7QAkl5stAsF5P2/zTsOsy.CbKbh0kCQvOCrK2Ednt0Ll8TddXe'
+      # - PASSWORD_HASH=$$2y$$10$$hBCoykrB95WSzuV4fafBzOHWKu9sbyVa34GJr8VV5R/pIelfEMYyG
+      - PASSWORD=hBCoykrB95WSzuV4fafB
+      - PORT=51821
+      - WG_PORT=51820
+      - WG_CONFIG_PORT=51820
+      # - WG_DEFAULT_ADDRESS=10.1.1.x
+      # - WG_DEFAULT_DNS=8.8.8.8
+      # - WG_MTU=1420
+      # - WG_ALLOWED_IPS=192.168.15.0/24, 10.0.1.0/24
+      - WG_PERSISTENT_KEEPALIVE=25
+      # - WG_PRE_UP=echo "Pre Up" > /etc/wireguard/pre-up.txt
+      # - WG_POST_UP=echo "Post Up" > /etc/wireguard/post-up.txt
+      # - WG_PRE_DOWN=echo "Pre Down" > /etc/wireguard/pre-down.txt
+      # - WG_POST_DOWN=echo "Post Down" > /etc/wireguard/post-down.txt
+      # - UI_TRAFFIC_STATS=true
+      # - UI_CHART_TYPE=0 # (0 Charts disabled, 1 # Line chart, 2 # Area chart, 3 # Bar chart)
+    # volumes:
+    #   - ./wireguard/wg0.conf:/etc/wireguard/wg0.conf
+    #   - ./wireguard/wg0.json:/etc/wireguard/wg0.json
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+      # - "1080:1080"
+    expose:
+      - "1080"
+      - "51820/udp"
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
+    networks:
+      vpn_network:
+        ipv4_address: 10.1.1.51
+
+  v2ray:
+    image: v2fly/v2fly-core
+    container_name: v2ray
+    restart: unless-stopped
+    volumes:
+      - ./v2ray/config.json:/etc/v2ray/config.json
+      - ./log/v2ray:/var/log/v2ray
+    ports:
+      - "443:443"
+    command: run -config=/etc/v2ray/config.json
+    networks:
+      - vpn_network
+
+  dante:
+    image: vimagick/dante
+    container_name: dante
+    platform: linux/amd64
+    restart: unless-stopped
+    tmpfs:
+      - /run
+    volumes:
+      - ./dante/danted.conf:/etc/dante/sockd.conf
+      - ./log/danted:/var/log/danted
+    network_mode: "service:wg-easy"
+
+networks:
+  vpn_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.1.1.0/24

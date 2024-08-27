@@ -1,0 +1,108 @@
+{
+  "inbounds": [
+    {
+      "listen": "127.0.0.1",
+      "port": "1080",
+      "protocol": "socks",
+      "settings": {
+        "auth": "noauth",
+        "udp": false
+      },
+      "sniffing": {
+        "destOverride": [
+          "http",
+          "tls"
+        ],
+        "enabled": true
+      },
+      "tag": "socks-inbound"
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": "1087",
+      "protocol": "http",
+      "settings": {
+        "timeout": 360
+      },
+      "sniffing": {
+        "destOverride": [
+          "http",
+          "tls"
+        ],
+        "enabled": true
+      },
+      "tag": "http-inbound"
+    }
+  ],
+  "log": {
+    "access": "C:\\Users\\Gary\\Desktop\\vpn\\v2ray_to_wireguard\\execute_file\\access.log",
+    "error": "C:\\Users\\Gary\\Desktop\\vpn\\v2ray_to_wireguard\\execute_file\\error.log",
+    "loglevel": "warning"
+  },
+  "outbounds": [
+    {
+      "mux": {
+        "concurrency": 10,
+        "enabled": true
+      },
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "IP自行填寫",
+            "port": 443,
+            "users": [
+              {
+                "alterId": 0,
+                "id": "4a981189-992d-63f6-885b-f38906654566",
+                "level": 0,
+                "security": "auto"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "none",
+        "wsSettings": {
+          "path": "/"
+        }
+      },
+      "tag": "proxy"
+    },
+    {
+      "protocol": "freedom",
+      "settings": {},
+      "tag": "direct"
+    }
+  ],
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+      {
+        "domain": [
+          "domain:qwer.host.home",
+          "domain:host.home",
+          "domain:ttt.home"
+        ],
+        "domainMatcher": "mph",
+        "inboundTag": [
+          "http-inbound",
+          "socks-inbound"
+        ],
+        "outboundTag": "direct",
+        "type": "field"
+      },
+      {
+        "domainMatcher": "mph",
+        "inboundTag": [
+          "http-inbound",
+          "socks-inbound"
+        ],
+        "outboundTag": "proxy",
+        "type": "field"
+      }
+    ]
+  }
+}

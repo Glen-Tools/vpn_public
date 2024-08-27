@@ -1,0 +1,30 @@
+Mac os
+/Applications/qv2ray.app/v2ray-macos-64/v2ray  -config=/Users/user/Desktop/vpn/v2ray_to_wireguard/client/backup/config_sample.json
+/Applications/qv2ray.app/v2ray-macos-64/v2ray  test -config=/Users/user/Desktop/vpn/v2ray_to_wireguard/client/backup/config_sample.json
+
+# 设置、启用 SOCKS 代理
+networksetup -setsocksfirewallproxy Wi-Fi 127.0.0.1 1080
+networksetup -setsocksfirewallproxystate Wi-Fi on
+
+# 设置、启用 HTTP 代理
+networksetup -setwebproxy Wi-Fi 127.0.0.1 1087
+networksetup -setwebproxystate Wi-Fi on
+
+# 设置、启用 HTTPS 代理
+networksetup -setsecurewebproxy Wi-Fi 127.0.0.1 1087
+networksetup -setsecurewebproxystate Wi-Fi on
+
+#禁用 SOCKS 代理
+networksetup -setsocksfirewallproxystate "Wi-Fi" off
+#禁用 HTTP 代理
+networksetup -setwebproxystate "Wi-Fi" off
+#禁用 HTTPS 代理
+networksetup -setsecurewebproxystate "Wi-Fi" off
+
+
+#查看当前 SOCKS 代理设置
+networksetup -getsocksfirewallproxy Wi-Fi
+#查看当前 HTTP 代理设置
+networksetup -getwebproxy Wi-Fi
+#查看当前 HTTPS 代理设置
+networksetup -getsecurewebproxy Wi-Fi

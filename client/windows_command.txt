@@ -1,0 +1,14 @@
+windows
+C:\Users\Gary\Desktop\v2rayN-32\v2rayN-32\bin\v2fly\v2ray.exe run -config="C:\Users\Gary\Downloads\config_sample.json"
+C:\Users\Gary\Desktop\v2rayN-32\v2rayN-32\bin\v2fly\v2ray.exe test -config=C:\Users\Gary\Desktop\v2rayN-32\v2rayN-32\config.json
+
+# 设置代理
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyServer -Value "127.0.0.1:1087"
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyEnable -Value 1
+SetItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyOverride -Value "localhost;127.*;10.*;"
+
+# 验证设置
+Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings"
+
+# 禁用 SOCKS 
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name ProxyEnable -Value 0

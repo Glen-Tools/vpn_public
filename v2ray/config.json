@@ -1,0 +1,88 @@
+{
+    "log": {
+        "error": "/var/log/v2ray/error.log",
+        "loglevel": "warning"
+    },
+    "inbounds": [
+        {
+            "port": 443,
+            "protocol": "vmess",
+            "settings": {
+                "clients":[
+                    {
+                        "id": "14qwe487-bcb1-b1e4-de04-dff14cf619f2",
+                        "alterId": 64
+                    },
+                    {
+                        "id": "14qwe487-79fa-7ff5-bc48-e9889756f48f",
+                        "alterId": 64
+                    },
+                    {
+                        "id": "14qwe487-992d-63f6-885b-f38906654566",
+                        "alterId": 64
+                    },
+                    {
+                        "id": "14qwe487-cbb3-4738-3a80-0bcc0cd4ab22",
+                        "alterId": 64
+                    },
+                    {
+                        "id": "14qwe487-d05d-fae1-86c8-c478e93f778b",
+                        "alterId": 64
+                    },
+                    {
+                        "id": "14qwe487-9ba4-425d-b421-1d685b8292b3",
+                        "alterId": 64
+                    },
+                    {
+                        "id": "14qwe487-9e8d-4894-888b-8c5b12f4ef79",
+                        "alterId": 64
+                    },
+                    {
+                        "id": "14qwe487-24ad-43c7-b769-48a1c1e4f93c",
+                        "alterId": 64
+                    },
+                    {
+                        "id": "14qwe487-23a9-4e4d-b48c-27a5b9f123da",
+                        "alterId": 64
+                    },
+                    {
+                        "id": "14qwe487-7a6b-47c3-9d6b-e2a1b12c3e41",
+                        "alterId": 64
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws"
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "socks",
+            "settings": {
+                "servers": [
+                    {
+                        "port": 1080,
+                        "address": "10.1.1.51"
+                    }
+                ]
+            },
+            "streamSettings": {
+                "tcpSettings": {
+                    "header": {
+                        "type": "none"
+                    }
+                },
+                "network": "tcp",
+                "security": "none"
+            }
+        }
+    ]
+}

@@ -1,0 +1,110 @@
+{
+    "inbounds": [
+        {
+            "listen": "127.0.0.1",
+            "port": "1080",
+            "protocol": "socks",
+            "settings": {
+                "auth": "noauth",
+                "udp": false
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            },
+            "tag": "socks-inbound"
+        },
+        {
+            "listen": "127.0.0.1",
+            "port": "1087",
+            "protocol": "http",
+            "settings": {
+                "timeout": 360
+            },
+            "sniffing": {
+                "enabled": true,
+                "destOverride": [
+                    "http",
+                    "tls"
+                ]
+            },
+            "tag": "http-inbound"
+        }
+    ],
+    "log": {
+        "access": "",
+        "error": "C:\\Users\\Gary\\Desktop\\v2ray_client\\error.log",
+        "loglevel": "warning"
+    },
+    "outbounds": [
+        {
+            "mux": {
+                "concurrency": 10,
+                "enabled": true
+            },
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "IP自行填寫",
+                        "port": 443,
+                        "users": [
+                            {
+                                "alterId": 0,
+                                "id": "00ee008b-cbb3-4738-3a80-0bcc0cd4ab22",
+                                "level": 0,
+                                "security": "auto"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "security": "none",
+                "wsSettings": {
+                    "path": "/"
+                }
+            },
+            "tag": "proxy"
+        },
+        {
+            "protocol": "freedom",
+            "settings": {},
+            "tag": "direct"
+        }
+    ],
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {
+                "domainMatcher": "mph",
+                "domain": [
+                    "domain:ipaddress.my",
+                    "domain:www.whatismyip.com.tw",
+                    "domain:whatismyip.com.tw",
+                    "domain:host.home",
+                    "domain:ttt.home"
+                ],
+                "inboundTag": [
+                    "http-inbound",
+                    "socks-inbound"
+                ],
+                "outboundTag": "direct",
+                "type": "field"
+            },
+            {
+                "domainMatcher": "mph",
+                "inboundTag": [
+                    "http-inbound",
+                    "socks-inbound"
+                ],
+                "outboundTag": "proxy",
+                "type": "field"
+            }
+        ]
+    }
+}

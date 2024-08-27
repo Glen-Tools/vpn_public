@@ -1,0 +1,7 @@
+host:
+  - name: "localhost-1"
+    url : "qwer.host.home"
+  - name: "localhost-2"
+    url : "host.home"
+  - name: "localhost-3"
+    url : "ttt.home"
